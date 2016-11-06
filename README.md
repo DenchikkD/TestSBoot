@@ -2,4 +2,4 @@ To select the database, in the field "db.pattern" file "application.propertis", 
 To save a file Yson - db.propertis = json, in MySQL - db.propertis = sql.
 By default used MySQL
 
-CREATE SCHEMA `new_schema` DEFAULT CHARACTER SET utf8 ;
+CREATE SCHEMA `phonebook_db` DEFAULT CHARACTER SET utf8 ;

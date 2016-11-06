@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+    <title>User page</title>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="css/styleone.css" th:href="@{css/styleone.css}"/>
+
+</head>
+<body>
+            <form action="#" th:action="@{/exit}" th:object="${messageUser}" method="get">
+                <input style="float: right" class="red_button" type="submit" name="exit" value="Exit"/>
+            </form>
+<div id="openModal" class="modalDialog">
+    <div>
+        <form class="contact_form" action="#" th:action="@{/add}" th:object="${messageContact}" method="get">
+            <a href="#close" title="Close" class="close">X</a>
+            <ul>
+                <li>
+                    <h2>New contact</h2>
+                    <span class="required_notification">* Fill in required</span>
+                </li>
+                <li>
+                    <label class="contact_form">Surname</label>
+                    <input type="text" name="surname" value="" placeholder="Ivanov"
+                           th:patern="'^\b[A-Z][a-z]{3,}$'" th:required="instrument"/>
+                    <span class="form_hint">Surname</span>
+                </li>
+                <li>
+                    <label class="contact_form">Name</label>
+                    <input type="text" name="name" value="" placeholder="Ivan" th:patern="'^\b[A-Z][a-z]{3,}$'"
+                           th:required="instrument"/>
+                    <span class="form_hint">Name</span>
+                </li>
+                <li>
+                    <label class="contact_form">Patronymic</label>
+                    <input type="text" name="patronymic" value="" placeholder="Ivanovich"
+                           th:pattern="'^\b[A-Z][a-z]{3,}$'" th:required="instrument"/>
+                    <span class="form_hint">Patronymic</span>
+                </li>
+                <li>
+                    <label class="contact_form">Mobil number</label>
+                    <input type="text" name="phone_number" value="" placeholder="+38-XXX-XXX-XX-XX"
+                           th:patern="'^((8|\+38)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10}$'" th:required="instrument"/>
+                    <span class="form_hint">Mobil number</span>
+                </li>
+                <li>
+                    <label class="contact_form">Home telephone</label>
+                    <input type="text" name="home_telephone" value="" placeholder="XXX-XXX" th:pattern="'[0-9]{6}'"/>
+                    <span class="form_hint">Home telephone</span>
+                </li>
+                <li>
+                    <label class="contact_form">E-mail</label>
+                    <input type="text" name="email" value="" placeholder="Ivanov@gmail.com"
+                           th:pattern="'^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$'"/>
+                    <span class="form_hint">E-mail</span>
+                </li>
+                <li>
+                    <label class="contact_form">Address</label>
+                    <input type="text" name="address" value="" placeholder="Kiev" th:pattern="'^\b[A-Z][a-zA-Z0-9]+$'"/>
+                    <span class="form_hint">Address</span>
+                </li>
+                <li>
+                    <input style="margin-left: 75%" class="green_button" type="submit" name="add" value="Add"/>
+                </li>
+            </ul>
+        </form>
+        <label th:text="${addMessage}"/>
+    </div>
+</div>
+
+
+<div class="main">
+    <div class="contact_block">
+        <div class="control_right">
+            <h1 th:text="${userFullName}"/>
+            <h2 th:text="${userLogin}"/>
+        </div>
+
+        <div class="control_left">
+            <a href="#openModal"><input class="green_button" type="submit" name="add1" value="New contact"/></a>
+        </div>
+    </div>
+    <hr/>
+    <div class="control_right">
+        <th:block th:text="${'Size '+sizeContactList}"/>
+    </div>
+
+
+    <div class="contact">
+        <table class="noLine">
+            <tr>
+                <td><b>
+                    <div><label>Surname</label><label>Name</label><label>Patronymic</label><label>Mobil number</label><label>Home telephone</label><label>E-mail</label><label>Address</label></div>
+                </b></td>
+            </tr>
+            <th:block th:each="Contact : ${getContact}">
+
+
+                <div th:id="openModal+${Contact.id}" class="modalDialog">
+
+                    <div class="contact_form">
+                        <a href="#close" title="Close" class="close">X</a>
+                        <form action="#" th:action="@{/makeChanges}" th:object="${contact}" method="get">
+                            <ul>
+                                <li>
+                                    <h2>Edit</h2>
+                                    <span class="required_notification">* Fill in required</span>
+                                </li>
+
+                                <li>
+                                    <label class="contact_form">Surname</label>
+                                    <input type="text" name="surname" th:value="${Contact.surname}" placeholder="Ivanov"
+                                           th:pattern="'^\b[A-Z][a-z]{3,}$'" th:required="instrument"/>
+                                    <span class="form_hint">Surname</span>
+                                </li>
+                                <li>
+                                    <label class="contact_form">Name</label>
+                                    <input type="text" name="name" th:value="${Contact.name}" placeholder="Ivan"
+                                           th:pattern="'^\b[A-Z][a-z]{3,}$'" th:required="instrument"/>
+                                    <span class="form_hint">Name</span>
+                                </li>
+                                <li>
+                                    <label class="contact_form">Patronymic</label>
+                                    <input type="text" name="patronymic" th:value="${Contact.patronymic}"
+                                           placeholder="Ivanovich" th:pattern="'^\b[A-Z][a-z]{3,}$'"
+                                           th:required="instrument"/>
+                                    <span class="form_hint">Patronymic</span>
+                                </li>
+                                <li>
+                                    <label class="contact_form">Mobil number</label>
+                                    <input type="text" name="phone_number" th:value="${Contact.phoneNumber}"
+                                           placeholder="+38-XXX-XXX-XX-XX"
+                                           th:pattern="'^((8|\+38)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{10}$'"
+                                           th:required="instrument"/>
+                                    <span class="form_hint">Mobil number</span>
+                                </li>
+                                <li>
+                                    <label class="contact_form">Home telephone</label>
+                                    <input type="text" name="home_telephone" th:value="${Contact.homeTelephone}"
+                                           placeholder="XXX-XXX" th:pattern="'[0-9]{6}'"/>
+                                    <span class="form_hint">Home telephone</span>
+                                </li>
+                                <li>
+                                    <label class="contact_form">E-mail</label>
+                                    <input type="text" name="email" th:value="${Contact.email}"
+                                           placeholder="Ivanov@gmail.com"
+                                           th:pattern="'^[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$'"/>
+                                    <span class="form_hint">E-mail</span>
+                                </li>
+                                <li>
+                                    <label class="contact_form">Address</label>
+                                    <input type="text" name="address" th:value="${Contact.address}" placeholder="Kiev"
+                                           th:pattern="'^\b[A-Z][a-zA-Z0-9]+$'"/>
+                                    <span class="form_hint">Address</span>
+                                </li>
+
+
+                                <li>
+                                    <input type="hidden" name="id" th:value="${Contact.id}"/>
+
+                                    <input class="red_button" type="submit" name="delete" value="delete"/>
+                                    <input style="margin-left: 60%" class="green_button" type="submit" name="save"
+                                           value="Save"/>
+
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                    <!--<label th:text="${addMessage}"/>-->
+                </div>
+
+
+                <tr>
+                    <td>
+                        <!--th:href="@{/product/comments(prodId=${prod.id})}"-->
+                        <a class="noLine" th:href="${'#openModal'+Contact.id}">
+                            <div>
+                                <label th:text="${Contact.surname}"></label>
+                                <label th:text="${Contact.name}"></label>
+                                <label th:text="${Contact.patronymic}"></label>
+                                <label th:text="${Contact.phoneNumber}"></label>
+                                <label th:text="${Contact.homeTelephone}"></label>
+                                <label th:text="${Contact.email}"></label>
+                                <label th:text="${Contact.address}"></label>
+                            </div>
+                        </a>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
